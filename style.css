@@ -56,7 +56,11 @@ margin: 10px;
     padding: 20px 0; /* Adds padding to the top and bottom */
     box-sizing: border-box; /* Ensures padding doesn't affect width */
   }
-  
+  .filter-btn{
+    padding: 5px;
+    margin: 10px;
+    cursor: pointer;
+  }
   .footer {
     background-color: black;
     color: wheat;
@@ -67,4 +71,22 @@ margin: 10px;
     align-items: center; /* Centers the footer content vertically */
     text-align: center; /* Centers the text */
   }
-  
+  .shimmer-container{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .shimmer-card{
+    width: 200px;
+    height: 400px;
+    background-color:#f0f0f0;
+    margin: 20px;
+  }
+
+.login-button{
+    padding:  10px;
+    margin: 5px;
+    cursor: pointer;
+}
+.filter{
+  display: flex;
+}
