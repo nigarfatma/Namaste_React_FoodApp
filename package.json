@@ -4,7 +4,7 @@
   "description": "This is online food order app",
   "main": "App.js",
   "scripts": {
-    "start":"parcel index.html",
+    "start": "parcel index.html",
     "test": "jest"
   },
   "author": "Nigar",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1"
   }
 }
