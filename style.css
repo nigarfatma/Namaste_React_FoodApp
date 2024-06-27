@@ -90,3 +90,7 @@ margin: 10px;
 .filter{
   display: flex;
 }
+.user-card{
+  border: 1px solid black;
+  padding: 10px;
+}
