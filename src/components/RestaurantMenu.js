@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
-import { MENU_API } from "../utils/constants";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 const RestaurantMenu = () => {
-  const [resInfo, setResInfo] = useState(null);
+  // const [resInfo, setResInfo] = useState(null);
   const { resId } = useParams();
+  const resInfo = useRestaurantMenu(resId);
 
-  useEffect(() => {
-    fetchMenu();
-  }, []);
-  const fetchMenu = async () => {
-    const data = await fetch(
-      // "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=22.5743545&lng=88.3628734&restaurantId=149560&catalog_qa=undefined&submitAction=ENTER"
-      MENU_API + resId
-    );
-    // note id is 425,229
-    const json = await data.json();
-    console.log(json);
-    setResInfo(json.data);
-  };
+  // useEffect(() => {
+  //   fetchMenu();
+  // }, []);
+  // const fetchMenu = async () => {
+  //   const data = await fetch(
+  //     // "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=22.5743545&lng=88.3628734&restaurantId=149560&catalog_qa=undefined&submitAction=ENTER"
+  //     MENU_API + resId
+  //   );
+  //   // note id is 425,229
+  //   const json = await data.json();
+  //   console.log(json);
+  //   setResInfo(json.data);
+  // };
   // const { name } = resInfo?.cards[2]?.card?.card?.info;
   const info = resInfo?.cards?.[2]?.card?.card?.info || {};
   const { name, costForTwoMessage, cuisines, avgRating } = info;

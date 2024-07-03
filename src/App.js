@@ -1,14 +1,15 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
 import About from "./components/About";
-import { createBrowserRouter,RouterProvider,Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Contact from "./components/Contact";
 import Cart from "./components/Cart";
 import Error from "./components/Error";
-import RestaurantMenu from './components/RestaurantMenu' 
+import RestaurantMenu from "./components/RestaurantMenu";
+// import Grocery from "./components/Grocery";
 
 // export const RESTAURANT_DATA = {
 //   statusCode: 0,
@@ -2329,54 +2330,72 @@ import RestaurantMenu from './components/RestaurantMenu'
 //   csrfToken: "BIfpN1FUrkvd-Tih9pgt2ucjybcbGBVYsMs-AO3A",
 // };
 
+//
+
 const AppLayout = () => {
   return (
     <>
       <div className="app">
-
         <Header />
-       <Outlet/>
+        <Outlet />
         <Footer />
       </div>
     </>
   );
 };
-const appRouter = createBrowserRouter([{
-  path:'/',
-  element:<AppLayout/>,
-  children:[
-    {
-      path:'/',
-      element:<Body/>
-    },
-    {
-      path:'/about',
-      element:<About/>
+// Chunking
+// CodeSplitting
+// Dynamic Bundling
+// Lazy Loading -->lazing loading meaning hmko jo component requried hai usk codetb hi load ho
+//lazy loading alos called  on demand loading and also known dynamic import
+
+const Grocery = lazy(() => import("./components/Grocery"));
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Body />,
       },
       {
-        path:'/contact',
-        element:<Contact/>
-        },
-        {
-          path:'/cart',
-          element:<Cart/>
-        },
-        {
-          path:'/restaurants/:resId',
-          element:<RestaurantMenu/>
-        },
-  ],
-  errorElement:<Error/>,
-},
-// {
-// path:'/about',
-// element:<About/>
-// },
-// {
-//   path:'/contact',
-//   element:<Contact/>
-//   },
-])
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+      {
+        path: "/grocery",
+        element: (
+          <Suspense fallback={<h1>loading...</h1>}>
+            {" "}
+            <Grocery />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/restaurants/:resId",
+        element: <RestaurantMenu />,
+      },
+    ],
+    errorElement: <Error />,
+  },
+  // {
+  // path:'/about',
+  // element:<About/>
+  // },
+  // {
+  //   path:'/contact',
+  //   element:<Contact/>
+  //   },
+]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // root.render(<AppLayout />);
