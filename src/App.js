@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -9,6 +9,9 @@ import Contact from "./components/Contact";
 import Cart from "./components/Cart";
 import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
+import UserContext from "./utils/UserContext";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
 // import Grocery from "./components/Grocery";
 
 // export const RESTAURANT_DATA = {
@@ -2333,13 +2336,39 @@ import RestaurantMenu from "./components/RestaurantMenu";
 //
 
 const AppLayout = () => {
+  const [userName, setUsername] = useState();
+  const { loggedInUser } = useContext(UserContext);
+  console.log("loggedInUser", loggedInUser);
+  // authentication
+  useEffect(() => {
+    // Make an Api call
+    const data = {
+      name: "nigar",
+    };
+    setUsername(data.name);
+  }, []);
   return (
     <>
+    <Provider store={appStore}>
+     <UserContext.Provider value={{ loggedInUser: userName,setUsername }}>
       <div className="app">
-        <Header />
-        <Outlet />
-        <Footer />
+       
+          {/* <UserContext.Provider
+          value={{ loggedInUser: loggedInUser, setUsername }}
+        > */}
+          {/* <UserContext.Provider value={{loggedInUser:userName}}>
+          <Header />
+          </UserContext.Provider> */}
+
+          <Header />
+
+          {/* <Header /> */}
+          <Outlet />
+    
+        {/* <Footer /> */}
       </div>
+      </UserContext.Provider>
+      </Provider>
     </>
   );
 };

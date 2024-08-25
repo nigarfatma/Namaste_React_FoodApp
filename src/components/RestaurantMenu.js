@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategorie from "./RestaurantCategorie";
 
 const RestaurantMenu = () => {
   // const [resInfo, setResInfo] = useState(null);
   const { resId } = useParams();
+  // props drilling
+  const dummy = "dummy data";
   const resInfo = useRestaurantMenu(resId);
+  const [showIndex, setShowIndex] = useState(null);
 
   // useEffect(() => {
   //   fetchMenu();
@@ -27,18 +31,37 @@ const RestaurantMenu = () => {
   const infoCards =
     resInfo?.cards?.[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
       ?.card || {};
+  // console.log(
+  //   "hghj",
+  //   resInfo?.cards?.[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards
+  // );
   const { itemCards } = infoCards;
+  // Show categories
+  const categories =
+    resInfo?.cards?.[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c?.card?.["card"]?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
 
+  // const handleToggle = (index) => {
+  //   if (showIndex === index) {
+  //     setShowIndex(null); // Collapse if the same category is clicked
+  //   } else {
+  //     setShowIndex(index); // Open the selected category
+  //   }
+  // };
+  // console.log("categories", categories);
   return resInfo === null ? (
     <Shimmer />
   ) : (
     <>
-      <div className="menu">
-        <h3>{name}</h3>
-        <p>
+      <div className="menu text-center">
+        <h3 className="font-bold my-6 text-2xl">{name}</h3>
+        <p className="font-bold text-lg">
           {cuisines.join(",")} - {costForTwoMessage}
         </p>
-        <h2>Menu</h2>
+        {/* <h2>Menu</h2>
         <ul>
           {itemCards.map((item) => (
             <li key={item.card.info.id}>
@@ -50,12 +73,30 @@ const RestaurantMenu = () => {
                 item.card.info.price / 100}
             </li>
           ))}
-        </ul>
+        </ul> */}
         {/* <ul>
           {itemCards.map((item, index) => (
             <li>{item.card.info.name}</li>
           ))}
         </ul> */}
+        {/* categories accordians */}
+        {categories.map((categorie, index) => (
+          //     {/* Controlled Component */}
+
+          <RestaurantCategorie
+            key={categorie?.card?.card.title}
+            data={categorie?.card?.card}
+            dummy={dummy}
+            // showItems={index === showIndex ? true : false}
+            showItems={index === showIndex}
+            // setShowIndex={() => setShowIndex(index)}
+            setShowIndex={() =>
+              showIndex === index ? setShowIndex(null) : setShowIndex(index)
+            }
+
+            // setShowIndex={() => handleToggle(index)}
+          />
+        ))}
       </div>
     </>
   );
